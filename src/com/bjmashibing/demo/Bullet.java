@@ -14,7 +14,7 @@ public class Bullet {
 
     private Group group = Group.BAD;
 
-    private TankFrame tf = null;
+    TankFrame tf = null;
 
     Rectangle rect = new Rectangle();
 
@@ -29,6 +29,9 @@ public class Bullet {
         rect.y = this.y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
+
+        tf.bullet.add(this);
+
     }
 
     public Group getGroup() {

@@ -1,5 +1,9 @@
 package com.bjmashibing.demo;
 
+import com.bjmashibing.demo.design.DefaultFireStrategy;
+import com.bjmashibing.demo.design.FireStrategy;
+import com.bjmashibing.demo.design.FourDirFireStrategy;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -19,6 +23,10 @@ public class Tank {
     public boolean living = true;
 
     Rectangle rect = new Rectangle();
+
+    public TankFrame tf = null;
+
+    private boolean moving = true;
 
     public Group getGroup() {
         return group;
@@ -43,10 +51,6 @@ public class Tank {
     public void setY(int y) {
         this.y = y;
     }
-
-    private boolean moving = true;
-
-    private TankFrame tf = null;
 
     public Dir getDir() {
         return dir;
@@ -114,7 +118,11 @@ public class Tank {
                 x += SPEED;
                 break;
         }
-        if (this.group == Group.BAD && random.nextInt(100) > 95) this.fire();
+        if (this.group == Group.BAD && random.nextInt(100) > 95) {
+            String badFire = (String) PropertyMgr.key("defaultFireStrategy");
+//            Class.forName(badFire).newInstance();
+            this.fire(DefaultFireStrategy.getInstance());
+        }
         if (this.group == Group.BAD && random.nextInt(100) > 95) randomDir();
 
         boundsCheack();
@@ -134,11 +142,8 @@ public class Tank {
         this.dir = Dir.values()[random.nextInt(4)];
     }
 
-    public void fire(){
-        int bx = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
-        int by = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
-
-        tf.bullet.add(new Bullet(bx,by,this.dir,this.tf,this.group));
+    public void fire(FireStrategy fireStrategy){
+        fireStrategy.fire(this);
     }
 
     public void die(){

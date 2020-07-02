@@ -1,5 +1,8 @@
 package com.bjmashibing.demo;
 
+import com.bjmashibing.demo.design.DefaultFireStrategy;
+import com.bjmashibing.demo.design.FourDirFireStrategy;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -105,7 +108,7 @@ public class TankFrame extends Frame {
                     bD = true;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    myTank.fire();
+                    myTank.fire(FourDirFireStrategy.getInstance());
                     break;
                 default:
                     break;
